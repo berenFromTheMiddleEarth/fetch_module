@@ -50,51 +50,6 @@ module fetch_instruction(
 
 	);
 
-	reg [`ADDR_WIDTH-1:0] keep_program_counter_for_stages_next;
-	reg [`ADDR_WIDTH-1:0] keep_program_counter_for_stages_current;
-
-
-	reg [`ADDR_WIDTH-1:0] pc_current,pc_next;
-
-
-
-	always@(posedge clk)begin
-		if(rst)begin
-			pc_current <= 0;
-			instruction_valid_out_from_FI_to_FOA <= 0;
-		end else begin
-			pc_current <= pc_next;
-			if(flush)begin
-				instruction_valid_out_from_FI_to_FOA <= 0;
-			end else if(stall)begin
-				instruction_valid_out_from_FI_to_FOA <= 0;
-			end else begin
-				instruction_valid_out_from_FI_to_FOA <= 1;
-				keep_program_counter_for_stages_current <= keep_program_counter_for_stages_next;
-			end
-			
-		end
-	end
-	
-	always@(*)begin
-		pc_next = pc_current;
-		keep_program_counter_for_stages_next = keep_program_counter_for_stages_current;
-
-		if(flush)begin
-			pc_next = flush_pc;
-		end else if(stall)begin
-			pc_next = pc_current;
-		end else begin
-			pc_next = pc_current + 1;
-		end
-	end
-	
-	
-	always@(*)begin
-			program_counter_for_instruction_read = pc_current;
-			program_counter_for_stages = pc_current;	
-	end
-	
 
 
 endmodule
