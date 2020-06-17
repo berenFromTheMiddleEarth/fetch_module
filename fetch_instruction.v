@@ -39,8 +39,6 @@ module fetch_instruction(
 
 	output reg instruction_valid_out_from_FI_to_FOA,
 
-
-	// for flush
 	input wire flush,
 	input wire [`ADDR_WIDTH-1:0] flush_pc,
 
@@ -93,14 +91,8 @@ module fetch_instruction(
 	
 	
 	always@(*)begin
-		//if(flush)begin
-			//program_counter_for_instruction_read = flush_pc;
-			//program_counter_for_stages = flush_pc;
-		//end else begin
 			program_counter_for_instruction_read = pc_current;
-			program_counter_for_stages = pc_current;
-		//end
-		
+			program_counter_for_stages = pc_current;	
 	end
 	
 
